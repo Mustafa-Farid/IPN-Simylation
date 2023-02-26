@@ -1,0 +1,25 @@
+crtmqm -u QMTHP.DLQ -p 2412 QMTHP
+
+crtmqm -u QMBANKONE.DLQ -p 2421 QMBANKONE
+
+crtmqm -u QMBANKTWO.DLQ -p 2431 QMBANKTWO
+
+crtmqm -u QMBANKTHREE.DLQ -p 2441 QMBANKTHREE
+
+
+strmqm QMTHP
+
+strmqm QMBANKONE
+
+strmqm QMBANKTWO
+
+strmqm QMBANKTHREE
+
+
+runmqsc QMTHP< QMTHP.mqsc
+
+runmqsc QMBANKONE <	QMBANKONE.mqsc
+
+runmqsc QMBANKTWO < QMBANKTWO.mqsc
+
+runmqsc QMBANKTHREE < QMBANKTHREE.mqsc

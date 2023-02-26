@@ -1,0 +1,808 @@
+openapi: 3.0.3
+info:
+  title: tech_hub_pay
+  version: 1.0.0
+  contact: {}
+  x-ibm-name: tech_hub_pay
+servers:
+  - url: /v1/account
+paths:
+  /:
+    post:
+      summary: register
+      description: register
+      operationId: register
+      parameters:
+        - name: ipa
+          in: header
+          schema:
+            type: string
+            example: test18
+          required: false
+        - name: bank-id
+          in: header
+          schema:
+            type: string
+            example: bankOne
+          required: false
+        - name: card-number
+          in: header
+          schema:
+            type: string
+            example: '4587397521358440'
+          required: false
+        - name: atm-pin
+          in: header
+          schema:
+            type: string
+            example: '1235'
+          required: false
+        - name: ipa-pin
+          in: header
+          schema:
+            type: string
+            example: '123459'
+          required: false
+      responses:
+        '200':
+          description: ''
+      security:
+        - Client-Secret: []
+          Client-Id: []
+    put:
+      responses:
+        '200':
+          description: success
+      security:
+        - Client-Secret: []
+          Client-Id: []
+      parameters:
+        - name: account-key
+          in: header
+          required: false
+          schema:
+            type: string
+            example: 342a1055387a429e87cf3da806dd2480
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: request body
+              type: object
+              properties:
+                account-status:
+                  type: boolean
+  /request-add:
+    get:
+      summary: request_add_account
+      description: request_add_account
+      operationId: requestAddAccount
+      parameters:
+        - name: ipa
+          in: header
+          schema:
+            type: string
+            example: test18
+          required: false
+        - name: bank-id
+          in: header
+          schema:
+            type: string
+            example: bankOne
+          required: false
+      responses:
+        '200':
+          description: ''
+      security:
+        - Client-Secret: []
+          Client-Id: []
+    parameters: []
+  /validate-receiver:
+    get:
+      summary: validate_receiver_account
+      description: validate_receiver_account
+      operationId: validateReceiverAccount
+      parameters:
+        - name: bank-id
+          in: header
+          schema:
+            type: string
+            example: bankOne
+      responses:
+        '200':
+          description: ''
+      security:
+        - Client-Secret: []
+          Client-Id: []
+    parameters:
+      - name: bank-id
+        in: header
+        required: false
+        schema:
+          type: string
+          example: bankOne
+  /validate-atm-pin:
+    get:
+      summary: validate_atm_pin
+      description: validate_atm_pin
+      operationId: validateAtmPin
+      parameters:
+        - name: bank-id
+          in: header
+          schema:
+            type: string
+            example: bankOne
+      responses:
+        '200':
+          description: ''
+      security:
+        - Client-Secret: []
+          Client-Id: []
+    parameters:
+      - name: bank-id
+        in: header
+        required: false
+        schema:
+          type: string
+          example: bankOne
+tags: []
+x-ibm-configuration:
+  cors:
+    enabled: true
+  properties:
+    target-url:
+      value: https://api.github.com/zen
+      description: The URL of the target service
+      encoded: false
+  phase: realized
+  enforced: true
+  gateway: datapower-api-gateway
+  assembly:
+    execute:
+      - switch:
+          version: 2.0.0
+          title: switch
+          case:
+            - condition: ($httpVerb() = 'POST' and $operationPath() = '/')
+              execute:
+                - switch:
+                    version: 2.0.0
+                    title: switch
+                    case:
+                      - condition: $not($header("ipa"))
+                        execute:
+                          - map:
+                              version: 2.0.0
+                              title: map
+                              inputs: {}
+                              outputs:
+                                response-status-code:
+                                  schema:
+                                    type: integer
+                                    format: int32
+                                  variable: message.status.code
+                                output:
+                                  schema:
+                                    description: ''
+                                    type: object
+                                    properties:
+                                      status-code:
+                                        type: number
+                                        name: status-code
+                                      status-msg:
+                                        type: string
+                                        name: status-msg
+                                      msg:
+                                        type: string
+                                        name: msg
+                                    example: >-
+                                      {"status-code":400,"status-msg":"Bad
+                                      Request","msg":"ipa is missing from
+                                      header"}
+                                  variable: message.body
+                                  content: application/json
+                              actions:
+                                - set: response-status-code
+                                  value: '400'
+                                - set: output.status-code
+                                  value: '400'
+                                - set: output.status-msg
+                                  value: '"Bad Request"'
+                                - set: output.msg
+                                  value: '"ipa is missing in request header"'
+                      - condition: $not($header("bank-id"))
+                        execute:
+                          - map:
+                              version: 2.0.0
+                              title: map
+                              inputs: {}
+                              outputs:
+                                response-status-code:
+                                  schema:
+                                    type: integer
+                                    format: int32
+                                  variable: message.status.code
+                                output:
+                                  schema:
+                                    description: ''
+                                    type: object
+                                    properties:
+                                      status-code:
+                                        type: number
+                                        name: status-code
+                                      status-msg:
+                                        type: string
+                                        name: status-msg
+                                      msg:
+                                        type: string
+                                        name: msg
+                                    example: >-
+                                      {"status-code":400,"status-msg":"Bad
+                                      Request","msg":"ipa is missing from
+                                      header"}
+                                  variable: message.body
+                                  content: application/json
+                              actions:
+                                - set: response-status-code
+                                  value: '400'
+                                - set: output.status-code
+                                  value: '400'
+                                - set: output.status-msg
+                                  value: '"Bad Request"'
+                                - set: output.msg
+                                  value: '"bank-id is missing in request header"'
+                      - condition: $not($header("card-number"))
+                        execute:
+                          - map:
+                              version: 2.0.0
+                              title: map
+                              inputs: {}
+                              outputs:
+                                response-status-code:
+                                  schema:
+                                    type: integer
+                                    format: int32
+                                  variable: message.status.code
+                                output:
+                                  schema:
+                                    description: ''
+                                    type: object
+                                    properties:
+                                      status-code:
+                                        type: number
+                                        name: status-code
+                                      status-msg:
+                                        type: string
+                                        name: status-msg
+                                      msg:
+                                        type: string
+                                        name: msg
+                                    example: >-
+                                      {"status-code":400,"status-msg":"Bad
+                                      Request","msg":"ipa is missing from
+                                      header"}
+                                  variable: message.body
+                                  content: application/json
+                              actions:
+                                - set: response-status-code
+                                  value: '400'
+                                - set: output.status-code
+                                  value: '400'
+                                - set: output.status-msg
+                                  value: '"Bad Request"'
+                                - set: output.msg
+                                  value: '"card-number is missing in request header"'
+                      - condition: $not($header("ipa-pin"))
+                        execute:
+                          - map:
+                              version: 2.0.0
+                              title: map
+                              inputs: {}
+                              outputs:
+                                response-status-code:
+                                  schema:
+                                    type: integer
+                                    format: int32
+                                  variable: message.status.code
+                                output:
+                                  schema:
+                                    description: ''
+                                    type: object
+                                    properties:
+                                      status-code:
+                                        type: number
+                                        name: status-code
+                                      status-msg:
+                                        type: string
+                                        name: status-msg
+                                      msg:
+                                        type: string
+                                        name: msg
+                                    example: >-
+                                      {"status-code":400,"status-msg":"Bad
+                                      Request","msg":"ipa is missing from
+                                      header"}
+                                  variable: message.body
+                                  content: application/json
+                              actions:
+                                - set: response-status-code
+                                  value: '400'
+                                - set: output.status-code
+                                  value: '400'
+                                - set: output.status-msg
+                                  value: '"Bad Request"'
+                                - set: output.msg
+                                  value: '"ipa-pin is missing in request header"'
+                      - condition: $not($header("atm-pin"))
+                        execute:
+                          - map:
+                              version: 2.0.0
+                              title: map
+                              inputs: {}
+                              outputs:
+                                response-status-code:
+                                  schema:
+                                    type: integer
+                                    format: int32
+                                  variable: message.status.code
+                                output:
+                                  schema:
+                                    description: ''
+                                    type: object
+                                    properties:
+                                      status-code:
+                                        type: number
+                                        name: status-code
+                                      status-msg:
+                                        type: string
+                                        name: status-msg
+                                      msg:
+                                        type: string
+                                        name: msg
+                                    example: >-
+                                      {"status-code":400,"status-msg":"Bad
+                                      Request","msg":"ipa is missing from
+                                      header"}
+                                  variable: message.body
+                                  content: application/json
+                              actions:
+                                - set: response-status-code
+                                  value: '400'
+                                - set: output.status-code
+                                  value: '400'
+                                - set: output.status-msg
+                                  value: '"Bad Request"'
+                                - set: output.msg
+                                  value: '"atm-pin is missing in request header"'
+                      - otherwise:
+                          - invoke:
+                              version: 2.2.0
+                              title: invoke
+                              backend-type: detect
+                              header-control:
+                                type: blocklist
+                                values: []
+                              parameter-control:
+                                type: allowlist
+                                values: []
+                              http-version: HTTP/1.1
+                              timeout: 60
+                              verb: POST
+                              chunked-uploads: true
+                              persistent-connection: true
+                              cache-response: protocol
+                              cache-ttl: 900
+                              stop-on-error: []
+                              websocket-upgrade: false
+                              target-url: >-
+                                https://dcac5bef-ccb4-4c8d-a159-d46091aa3b7d.mock.pstmn.io/tech_hub_pay/v1/register
+                              graphql-send-type: detect
+            - condition: ($httpVerb() = 'PUT' and $operationPath() = '/')
+              execute:
+                - switch:
+                    version: 2.0.0
+                    title: switch
+                    case:
+                      - condition: $not($queryParameter('account-status'))
+                        execute:
+                          - map:
+                              version: 2.0.0
+                              title: map
+                              inputs: {}
+                              outputs:
+                                response-status-code:
+                                  schema:
+                                    type: integer
+                                    format: int32
+                                  variable: message.status.code
+                                output:
+                                  schema:
+                                    description: ''
+                                    type: object
+                                    properties:
+                                      status-code:
+                                        type: number
+                                        name: status-code
+                                      status-msg:
+                                        type: string
+                                        name: status-msg
+                                      msg:
+                                        type: string
+                                        name: msg
+                                    example: >-
+                                      {"status-code":400,"status-msg":"Bad
+                                      Request","msg":"ipa is missing from
+                                      header"}
+                                  variable: message.body
+                                  content: application/json
+                              actions:
+                                - set: response-status-code
+                                  value: '400'
+                                - set: output.status-code
+                                  value: '400'
+                                - set: output.status-msg
+                                  value: '"Bad Request"'
+                                - set: output.msg
+                                  value: >-
+                                    "account-status is missing in request query
+                                    params"
+                      - condition: $not($header("account-key"))
+                        execute:
+                          - map:
+                              version: 2.0.0
+                              title: map
+                              inputs: {}
+                              outputs:
+                                response-status-code:
+                                  schema:
+                                    type: integer
+                                    format: int32
+                                  variable: message.status.code
+                                output:
+                                  schema:
+                                    description: ''
+                                    type: object
+                                    properties:
+                                      status-code:
+                                        type: number
+                                        name: status-code
+                                      status-msg:
+                                        type: string
+                                        name: status-msg
+                                      msg:
+                                        type: string
+                                        name: msg
+                                    example: >-
+                                      {"status-code":400,"status-msg":"Bad
+                                      Request","msg":"ipa is missing from
+                                      header"}
+                                  variable: message.body
+                                  content: application/json
+                              actions:
+                                - set: response-status-code
+                                  value: '400'
+                                - set: output.status-code
+                                  value: '400'
+                                - set: output.status-msg
+                                  value: '"Bad Request"'
+                                - set: output.msg
+                                  value: '"account-key is missing in request header"'
+                      - otherwise:
+                          - map:
+                              version: 2.0.0
+                              title: map
+                              inputs:
+                                account-status:
+                                  schema:
+                                    type: boolean
+                                  variable: request.parameters.account-status
+                              outputs:
+                                status:
+                                  schema:
+                                    description: ''
+                                    type: object
+                                    properties:
+                                      status:
+                                        type: boolean
+                                        name: status
+                                    example: '{"status":true}'
+                                  variable: message.body
+                              actions:
+                                - set: status.status
+                                  from: account-status
+                              options:
+                                mapEmulateV4EmptyJSONObject: false
+                                mapEmulateV4DefaultRequiredProps: false
+                                mapEnablePostProcessingJSON: false
+                                mapReferenceLimit: 1
+                          - invoke:
+                              version: 2.2.0
+                              title: ''
+                              backend-type: detect
+                              header-control:
+                                type: blocklist
+                                values: []
+                              parameter-control:
+                                type: allowlist
+                                values: []
+                              http-version: HTTP/1.1
+                              timeout: 60
+                              verb: POST
+                              chunked-uploads: true
+                              persistent-connection: true
+                              cache-response: protocol
+                              cache-ttl: 900
+                              stop-on-error: []
+                              websocket-upgrade: false
+                              target-url: >-
+                                https://dcac5bef-ccb4-4c8d-a159-d46091aa3b7d.mock.pstmn.io/tech_hub_pay/v1/add_account
+                              graphql-send-type: detect
+            - condition: ($httpVerb() = 'GET' and $operationPath() = '/request-add')
+              execute:
+                - switch:
+                    version: 2.0.0
+                    title: switch
+                    case:
+                      - condition: $not($header("ipa"))
+                        execute:
+                          - map:
+                              version: 2.0.0
+                              title: map
+                              inputs: {}
+                              outputs:
+                                response-status-code:
+                                  schema:
+                                    type: integer
+                                    format: int32
+                                  variable: message.status.code
+                                output:
+                                  schema:
+                                    description: ''
+                                    type: object
+                                    properties:
+                                      status-code:
+                                        type: number
+                                        name: status-code
+                                      status-msg:
+                                        type: string
+                                        name: status-msg
+                                      msg:
+                                        type: string
+                                        name: msg
+                                    example: >-
+                                      {"status-code":400,"status-msg":"Bad
+                                      Request","msg":"ipa is missing from
+                                      header"}
+                                  variable: message.body
+                                  content: application/json
+                              actions:
+                                - set: response-status-code
+                                  value: '400'
+                                - set: output.status-code
+                                  value: '400'
+                                - set: output.status-msg
+                                  value: '"Bad Request"'
+                                - set: output.msg
+                                  value: '"ipa is missing in request header"'
+                      - condition: $not($header("bank-id"))
+                        execute:
+                          - map:
+                              version: 2.0.0
+                              title: map
+                              inputs: {}
+                              outputs:
+                                response-status-code:
+                                  schema:
+                                    type: integer
+                                    format: int32
+                                  variable: message.status.code
+                                output:
+                                  schema:
+                                    description: ''
+                                    type: object
+                                    properties:
+                                      status-code:
+                                        type: number
+                                        name: status-code
+                                      status-msg:
+                                        type: string
+                                        name: status-msg
+                                      msg:
+                                        type: string
+                                        name: msg
+                                    example: >-
+                                      {"status-code":400,"status-msg":"Bad
+                                      Request","msg":"ipa is missing from
+                                      header"}
+                                  variable: message.body
+                                  content: application/json
+                              actions:
+                                - set: response-status-code
+                                  value: '400'
+                                - set: output.status-code
+                                  value: '400'
+                                - set: output.status-msg
+                                  value: '"Bad Request"'
+                                - set: output.msg
+                                  value: '"bank-id is missing in request header"'
+                      - otherwise:
+                          - invoke:
+                              version: 2.2.0
+                              title: invoke
+                              backend-type: detect
+                              header-control:
+                                type: blocklist
+                                values: []
+                              parameter-control:
+                                type: allowlist
+                                values: []
+                              http-version: HTTP/1.1
+                              timeout: 60
+                              verb: GET
+                              chunked-uploads: true
+                              persistent-connection: true
+                              cache-response: protocol
+                              cache-ttl: 900
+                              stop-on-error: []
+                              websocket-upgrade: false
+                              target-url: >-
+                                https://dcac5bef-ccb4-4c8d-a159-d46091aa3b7d.mock.pstmn.io/tech_hub_pay/v1/request_add_account
+            - condition: >-
+                ($httpVerb() = 'GET' and $operationPath() =
+                '/validate-receiver')
+              execute:
+                - switch:
+                    version: 2.0.0
+                    title: switch
+                    case:
+                      - condition: $not($header("bank-id"))
+                        execute:
+                          - map:
+                              version: 2.0.0
+                              title: map
+                              inputs: {}
+                              outputs:
+                                response-status-code:
+                                  schema:
+                                    type: integer
+                                    format: int32
+                                  variable: message.status.code
+                                output:
+                                  schema:
+                                    description: ''
+                                    type: object
+                                    properties:
+                                      status-code:
+                                        type: number
+                                        name: status-code
+                                      status-msg:
+                                        type: string
+                                        name: status-msg
+                                      msg:
+                                        type: string
+                                        name: msg
+                                    example: >-
+                                      {"status-code":400,"status-msg":"Bad
+                                      Request","msg":"ipa is missing from
+                                      header"}
+                                  variable: message.body
+                                  content: application/json
+                              actions:
+                                - set: response-status-code
+                                  value: '400'
+                                - set: output.status-code
+                                  value: '400'
+                                - set: output.status-msg
+                                  value: '"Bad Request"'
+                                - set: output.msg
+                                  value: '"bank-id is missing in request header"'
+                      - otherwise:
+                          - invoke:
+                              version: 2.2.0
+                              title: invoke
+                              backend-type: detect
+                              header-control:
+                                type: blocklist
+                                values: []
+                              parameter-control:
+                                type: allowlist
+                                values: []
+                              http-version: HTTP/1.1
+                              timeout: 60
+                              verb: GET
+                              chunked-uploads: true
+                              persistent-connection: true
+                              cache-response: protocol
+                              cache-ttl: 900
+                              stop-on-error: []
+                              websocket-upgrade: false
+                              target-url: >-
+                                https://dcac5bef-ccb4-4c8d-a159-d46091aa3b7d.mock.pstmn.io/tech_hub_pay/v1/validate_receiver_account
+            - condition: ($httpVerb() = 'GET' and $operationPath() = '/validate-atm-pin')
+              execute:
+                - switch:
+                    version: 2.0.0
+                    title: switch
+                    case:
+                      - condition: $not($header("bank-id"))
+                        execute:
+                          - map:
+                              version: 2.0.0
+                              title: map
+                              inputs: {}
+                              outputs:
+                                response-status-code:
+                                  schema:
+                                    type: integer
+                                    format: int32
+                                  variable: message.status.code
+                                output:
+                                  schema:
+                                    description: ''
+                                    type: object
+                                    properties:
+                                      status-code:
+                                        type: number
+                                        name: status-code
+                                      status-msg:
+                                        type: string
+                                        name: status-msg
+                                      msg:
+                                        type: string
+                                        name: msg
+                                    example: >-
+                                      {"status-code":400,"status-msg":"Bad
+                                      Request","msg":"ipa is missing from
+                                      header"}
+                                  variable: message.body
+                                  content: application/json
+                              actions:
+                                - set: response-status-code
+                                  value: '400'
+                                - set: output.status-code
+                                  value: '400'
+                                - set: output.status-msg
+                                  value: '"Bad Request"'
+                                - set: output.msg
+                                  value: '"bank-id is missing in request header"'
+                      - otherwise:
+                          - invoke:
+                              version: 2.2.0
+                              title: invoke
+                              backend-type: detect
+                              header-control:
+                                type: blocklist
+                                values: []
+                              parameter-control:
+                                type: allowlist
+                                values: []
+                              http-version: HTTP/1.1
+                              timeout: 60
+                              verb: GET
+                              chunked-uploads: true
+                              persistent-connection: true
+                              cache-response: protocol
+                              cache-ttl: 900
+                              stop-on-error: []
+                              websocket-upgrade: false
+                              target-url: >-
+                                https://dcac5bef-ccb4-4c8d-a159-d46091aa3b7d.mock.pstmn.io//tech_hub_pay/v1/validate_atm_pin
+    finally: []
+    catch: []
+  type: rest
+  testable: true
+  activity-log:
+    enabled: true
+    success-content: activity
+    error-content: payload
+security: []
+components:
+  securitySchemes:
+    Client-Secret:
+      type: apiKey
+      name: X-IBM-Client-Secret
+      in: header
+    Client-Id:
+      type: apiKey
+      in: header
+      name: X-IBM-Client-Id

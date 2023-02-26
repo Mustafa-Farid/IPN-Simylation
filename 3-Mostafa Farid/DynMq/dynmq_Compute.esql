@@ -1,0 +1,28 @@
+
+CREATE COMPUTE MODULE dynmq_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		
+		DECLARE qName CHARACTER InputRoot.JSON.Data.bankID;
+		SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName = qName || '.sendMoney.out';
+		          
+		RETURN TRUE;
+	END;
+
+	
+END MODULE;
+
+--CREATE COMPUTE MODULE dynmq_Compute
+--	CREATE FUNCTION Main() RETURNS BOOLEAN
+--	BEGIN
+--		SET OutputLocalEnvironment.Destination.MQ.DestinationData[1].queueName =
+--            CASE InputRoot.JSON.Data.bankName
+--                WHEN '1' THEN 'q1'
+--                WHEN '2' THEN 'q2'
+--                ELSE 'q3'
+--            END;
+--		RETURN TRUE;
+--	END;
+--
+--	
+--END MODULE;

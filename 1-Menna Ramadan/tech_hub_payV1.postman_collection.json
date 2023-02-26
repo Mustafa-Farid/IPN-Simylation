@@ -1,0 +1,329 @@
+{
+	"info": {
+		"_postman_id": "b644d8b0-a059-4c10-8965-8b2942612713",
+		"name": "tech_hub_payV1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24434397"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "ipa",
+						"value": "test18",
+						"type": "text"
+					},
+					{
+						"key": "bank-id",
+						"value": "bankOne",
+						"type": "text"
+					},
+					{
+						"key": "card-number",
+						"value": "4587397521358440",
+						"type": "text"
+					},
+					{
+						"key": "atm-pin",
+						"value": "1235",
+						"type": "text"
+					},
+					{
+						"key": "ipa-pin",
+						"value": "123459",
+						"type": "text"
+					},
+					{
+						"key": "X-IBM-Client-Id",
+						"value": "ee9cef4e471dd6b8f0d919971ff444a7",
+						"type": "text"
+					},
+					{
+						"key": "X-IBM-Client-Secret",
+						"value": "74ccef81d716269fb5dfe85537f1fa2e",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.us-east-a.apiconnect.ibmappdomain.cloud/tech-hub-pay/sandbox/v1/account/",
+					"protocol": "https",
+					"host": [
+						"api",
+						"us-east-a",
+						"apiconnect",
+						"ibmappdomain",
+						"cloud"
+					],
+					"path": [
+						"tech-hub-pay",
+						"sandbox",
+						"v1",
+						"account",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "validate_receiver_account",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "bank-id",
+						"value": "bankOne",
+						"type": "text"
+					},
+					{
+						"key": "X-IBM-Client-Id",
+						"value": "ee9cef4e471dd6b8f0d919971ff444a7",
+						"type": "text"
+					},
+					{
+						"key": "X-IBM-Client-Secret",
+						"value": "74ccef81d716269fb5dfe85537f1fa2e",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.us-east-a.apiconnect.ibmappdomain.cloud/tech-hub-pay/sandbox/v1/account/validate-receiver",
+					"protocol": "https",
+					"host": [
+						"api",
+						"us-east-a",
+						"apiconnect",
+						"ibmappdomain",
+						"cloud"
+					],
+					"path": [
+						"tech-hub-pay",
+						"sandbox",
+						"v1",
+						"account",
+						"validate-receiver"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "validate_atm_pin",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "bank-id",
+						"value": "bankOne",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "X-IBM-Client-Id",
+						"value": "ee9cef4e471dd6b8f0d919971ff444a7",
+						"type": "text"
+					},
+					{
+						"key": "X-IBM-Client-Secret",
+						"value": "74ccef81d716269fb5dfe85537f1fa2e",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.us-east-a.apiconnect.ibmappdomain.cloud/tech-hub-pay/sandbox/v1/account/validate-atm-pin",
+					"protocol": "https",
+					"host": [
+						"api",
+						"us-east-a",
+						"apiconnect",
+						"ibmappdomain",
+						"cloud"
+					],
+					"path": [
+						"tech-hub-pay",
+						"sandbox",
+						"v1",
+						"account",
+						"validate-atm-pin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_account",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "account-status",
+						"value": "true",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "account-key",
+						"value": "342a1055387a429e87cf3da806dd2480",
+						"type": "text"
+					},
+					{
+						"key": "X-IBM-Client-Id",
+						"value": "ee9cef4e471dd6b8f0d919971ff444a7",
+						"type": "text"
+					},
+					{
+						"key": "X-IBM-Client-Secret",
+						"value": "74ccef81d716269fb5dfe85537f1fa2e",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"account-status\": \"false\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.us-east-a.apiconnect.ibmappdomain.cloud/tech-hub-pay/sandbox/v1/account/?account-status=true",
+					"protocol": "https",
+					"host": [
+						"api",
+						"us-east-a",
+						"apiconnect",
+						"ibmappdomain",
+						"cloud"
+					],
+					"path": [
+						"tech-hub-pay",
+						"sandbox",
+						"v1",
+						"account",
+						""
+					],
+					"query": [
+						{
+							"key": "account-status",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "request_add_account",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "ipa",
+						"value": "test18",
+						"type": "text"
+					},
+					{
+						"key": "bank-id",
+						"value": "bankOne",
+						"type": "text"
+					},
+					{
+						"key": "X-IBM-Client-Id",
+						"value": "ee9cef4e471dd6b8f0d919971ff444a7",
+						"type": "text"
+					},
+					{
+						"key": "X-IBM-Client-Secret",
+						"value": "74ccef81d716269fb5dfe85537f1fa2e",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.us-east-a.apiconnect.ibmappdomain.cloud/tech-hub-pay/sandbox/v1/account/request-add",
+					"protocol": "https",
+					"host": [
+						"api",
+						"us-east-a",
+						"apiconnect",
+						"ibmappdomain",
+						"cloud"
+					],
+					"path": [
+						"tech-hub-pay",
+						"sandbox",
+						"v1",
+						"account",
+						"request-add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "send_money",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "receiver-account",
+						"value": "342a1055387a429e87cf3da806dd2480",
+						"type": "text"
+					},
+					{
+						"key": "receiver-account-type",
+						"value": "ipa",
+						"type": "text"
+					},
+					{
+						"key": "receiver-bank-id",
+						"value": "bankOne",
+						"type": "text"
+					},
+					{
+						"key": "sender-generated-account",
+						"value": "342a1055387a429e87cf3da806dd2480",
+						"type": "text"
+					},
+					{
+						"key": "X-IBM-Client-Id",
+						"value": "ee9cef4e471dd6b8f0d919971ff444a7",
+						"type": "text"
+					},
+					{
+						"key": "X-IBM-Client-Secret",
+						"value": "74ccef81d716269fb5dfe85537f1fa2e",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.us-east-a.apiconnect.ibmappdomain.cloud/tech-hub-pay/sandbox/v1/transaction?amount=123",
+					"protocol": "https",
+					"host": [
+						"api",
+						"us-east-a",
+						"apiconnect",
+						"ibmappdomain",
+						"cloud"
+					],
+					"path": [
+						"tech-hub-pay",
+						"sandbox",
+						"v1",
+						"transaction"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "123"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

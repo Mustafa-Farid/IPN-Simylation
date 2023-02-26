@@ -1,0 +1,36 @@
+{
+ "channel": [
+  {
+   "name": "CLOUD.ADMIN.SVRCONN",
+   "clientConnection": {
+    "connection": [
+     {
+      "host": "thp-d00a.qm.au-syd.mq.appdomain.cloud",
+      "port": 30928
+     }
+    ],
+    "queueManager": "THP"
+   },
+   "transmissionSecurity": {
+    "cipherSpecification": "ANY_TLS12_OR_HIGHER"
+   },
+   "type": "clientConnection"
+  },
+  {
+   "name": "CLOUD.APP.SVRCONN",
+   "clientConnection": {
+    "connection": [
+     {
+      "host": "thp-d00a.qm.au-syd.mq.appdomain.cloud",
+      "port": 30928
+     }
+    ],
+    "queueManager": "THP"
+   },
+   "transmissionSecurity": {
+    "cipherSpecification": "ANY_TLS12_OR_HIGHER"
+   },
+   "type": "clientConnection"
+  }
+ ]
+}

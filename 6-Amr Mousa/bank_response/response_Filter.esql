@@ -1,0 +1,16 @@
+
+
+
+
+CREATE FILTER MODULE response_Filter
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		IF Root.JSON.Data.response."is-register"=TRUE THEN
+		RETURN TRUE;
+	ELSE
+		RETURN FALSE;
+	END IF;
+		RETURN TRUE;
+	END;
+
+END MODULE;

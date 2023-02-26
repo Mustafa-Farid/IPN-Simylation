@@ -1,0 +1,91 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "sendmoney",
+    "version" : "1.0.0",
+    "description" : "sendmoney"
+  },
+  "paths" : {
+    "/transaction" : {
+      "post" : {
+        "operationId" : "postTransaction",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "$ref" : "#/definitions/responseMessage"
+            }
+          },
+          "406" : {
+            "description" : "The operation was rejected",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "500" : {
+            "description" : "server is not available (Generic).",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a transaction",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "string"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        }, {
+          "name" : "clientID",
+          "in" : "header",
+          "type" : "string",
+          "required" : true
+        }, {
+          "name" : "receiverAccount",
+          "in" : "header",
+          "type" : "string",
+          "required" : true
+        }, {
+          "name" : "receiverAccountType",
+          "in" : "header",
+          "type" : "string",
+          "required" : true
+        }, {
+          "name" : "receiverBankId",
+          "in" : "header",
+          "type" : "string",
+          "required" : true
+        }, {
+          "name" : "senderGeneratedAccount",
+          "in" : "header",
+          "type" : "number",
+          "required" : false
+        }, {
+          "name" : "amount",
+          "in" : "query",
+          "type" : "string",
+          "required" : true
+        } ]
+      }
+    }
+  },
+  "basePath" : "/sendmoney/v1",
+  "definitions" : {
+    "responseMessage" : {
+      "type" : "object",
+      "properties" : {
+        "status" : {
+          "type" : "string"
+        },
+        "transactionID" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

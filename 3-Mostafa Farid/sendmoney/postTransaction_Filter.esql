@@ -1,0 +1,16 @@
+
+
+CREATE FILTER MODULE postTransaction_Filter
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		
+		DECLARE receiverAccountType CHARACTER Root.HTTPInputHeader.Receiveraccounttype;
+		
+		IF receiverAccountType = 'ipa' THEN
+			RETURN TRUE;
+		END IF;
+		
+		RETURN FALSE;
+	END;
+
+END MODULE;

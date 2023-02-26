@@ -1,0 +1,18 @@
+
+
+CREATE FILTER MODULE bankResponse_Filter
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		
+		DECLARE status CHARACTER Root.JSON.Data.status;
+		IF status = 'success' THEN
+			RETURN TRUE;
+		ELSEIF status = 'failed' THEN
+			RETURN FALSE;
+		ELSE
+			RETURN UNKNOWN;
+		END IF;
+		
+	END;
+
+END MODULE;

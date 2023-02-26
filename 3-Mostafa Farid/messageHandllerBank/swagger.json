@@ -1,0 +1,79 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "messageHandller",
+    "version" : "1.0.0",
+    "description" : "messageHandller"
+  },
+  "paths" : {
+    "/msgHandler" : {
+      "post" : {
+        "operationId" : "postMsgHandler",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a msgHandler",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "$ref" : "#/definitions/keyStatus"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      },
+      "get" : {
+        "operationId" : "getMsgHandler",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "$ref" : "#/definitions/BankData"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve msgHandler"
+      }
+    }
+  },
+  "basePath" : "/messagehandller/v1",
+  "definitions" : {
+    "keyStatus" : {
+      "type" : "object",
+      "properties" : {
+        "statusFromBank" : {
+          "type" : "string"
+        },
+        "bankAccountKey" : {
+          "type" : "string"
+        }
+      }
+    },
+    "BankData" : {
+      "type" : "object",
+      "properties" : {
+        "bankAccountKey" : {
+          "type" : "string"
+        },
+        "cardNumber" : {
+          "type" : "string"
+        },
+        "ATM_PIN" : {
+          "type" : "string"
+        },
+        "IPA_PIN" : {
+          "type" : "string"
+        },
+        "bank_ID" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

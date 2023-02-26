@@ -1,0 +1,12 @@
+
+
+CREATE COMPUTE MODULE sendmoneyInputCatchHandler_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.HTTPResponseHeader."X-Original-HTTP-Status-Code" = 500;
+		SET OutputRoot.JSON.Data.status = ' server is not available now, please try again later. ';
+		RETURN TRUE;
+	END;
+
+
+END MODULE;

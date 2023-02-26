@@ -1,0 +1,46 @@
+
+
+CREATE COMPUTE MODULE postTransaction_GeneratTransaction
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		
+		SET OutputRoot.JSON.Data.transactionDate = CURRENT_TIMESTAMP;
+		SET OutputRoot.JSON.Data.transactionId = CAST((FLOOR(RAND()) * 100000000) AS CHARACTER);
+		SET OutputRoot.JSON.Data.transactionStatus = 'processing';
+		
+		DECLARE transactionId CHARACTER OutputRoot.JSON.Data.transactionId ;
+		DECLARE clientID CHARACTER OutputRoot.JSON.Data.clientID;
+		DECLARE senderAccountKey CHARACTER OutputRoot.JSON.Data.senderGeneratedAccount;
+		DECLARE receiverAccount CHARACTER OutputRoot.JSON.Data.receiverAccount;
+		DECLARE receiverAccountType CHARACTER OutputRoot.JSON.Data.receiverAccountType;
+		DECLARE amount CHARACTER OutputRoot.JSON.Data.amount;
+		DECLARE issuerBank CHARACTER OutputRoot.JSON.Data.senderBankId;
+		DECLARE acquireBank CHARACTER OutputRoot.JSON.Data.receiverBankId;
+		DECLARE transactionStatus CHARACTER OutputRoot.JSON.Data.transactionStatus;
+		DECLARE transactionDate CHARACTER OutputRoot.JSON.Data.transactionDate;
+		
+		
+		-- VALUES('|| transactionId ||',"'||clientID||'","'||senderAccountKey||'", "'||receiverAccount||'" ,"'||receiverAccountType||'","'||amount||'","'||issuerBank||'","'||acquireBank||'", "processing" ,CURRENT_TIMESTAMP)'
+		DECLARE query CHARACTER 'INSERT INTO tech_hub_pay.transactions(transactionId ,clientId , senderAccountKey, receiverAccount, receiverAccountType, amount, issuerBank, acquireBank, transactionStatus, transactionDate)
+		VALUES("'||transactionId||'","'||clientID||'","'||senderAccountKey||'","'||receiverAccount||'","'||receiverAccountType||'","'||amount||'","'||issuerBank||'","'||acquireBank||'","processing",CURRENT_TIMESTAMP)';
+		PASSTHRU(query);
+		
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

@@ -1,0 +1,45 @@
+
+
+CREATE COMPUTE MODULE validate_card_number_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		 CALL CopyMessageHeaders();
+		 CALL CopyEntireMessage();
+		DECLARE inputHeaders REFERENCE TO InputRoot.HTTPInputHeader;
+		SET OutputRoot.HTTPResponseHeader = inputHeaders;
+		
+		IF inputHeaders."Card-Number" IS NULL THEN
+			
+			SET OutputRoot.JSON.Data.StatusCode = 400;
+			SET OutputRoot.JSON.Data."msg" = 'missing card number';
+			
+		ELSE
+			DECLARE countC ROW;
+			DECLARE cardNumber CHARACTER;
+			
+			SET cardNumber = inputHeaders."Card-Number";
+			SET countC = PASSTHRU('SELECT count(*) FROM `bank_one`.accounts where cardNum=?' VALUES(cardNumber));
+			
+			IF countC."count(*)" = 0 THEN
+				SET OutputRoot.JSON.Data.res."success" = FALSE;
+			ELSE
+				SET OutputRoot.JSON.Data.res."success" = TRUE;
+		    END IF;
+		END IF;
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

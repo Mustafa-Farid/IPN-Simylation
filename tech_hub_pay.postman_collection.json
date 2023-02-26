@@ -1,0 +1,665 @@
+{
+	"info": {
+		"_postman_id": "99aefb83-3f09-4b6b-9b25-9d3785e07c77",
+		"name": "tech_hub_pay",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24434397"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "ipa",
+						"value": "test22",
+						"type": "text"
+					},
+					{
+						"key": "bank-id",
+						"value": "bankOne",
+						"type": "text"
+					},
+					{
+						"key": "card-number",
+						"value": "4587397521358440",
+						"type": "text"
+					},
+					{
+						"key": "atm-pin",
+						"value": "1235",
+						"type": "text"
+					},
+					{
+						"key": "ipa-pin",
+						"value": "123459",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:7800/tech_hub_pay/v1/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7800",
+					"path": [
+						"tech_hub_pay",
+						"v1",
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "register",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ipa",
+								"value": "test18",
+								"type": "text"
+							},
+							{
+								"key": "bank-id",
+								"value": "bankOne",
+								"type": "text"
+							},
+							{
+								"key": "card-number",
+								"value": "4587397521358440",
+								"type": "text"
+							},
+							{
+								"key": "atm-pin",
+								"value": "1235",
+								"type": "text"
+							},
+							{
+								"key": "ipa-pin",
+								"value": "123459",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/tech_hub_pay/v1/register",
+							"path": [
+								"tech_hub_pay",
+								"v1",
+								"register"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"Message Sent to Bank One\"\n}"
+				}
+			]
+		},
+		{
+			"name": "validate_receiver_account",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "bank-id",
+						"value": "bankOne",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:7800/tech_hub_pay/v1/validate_receiver_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7800",
+					"path": [
+						"tech_hub_pay",
+						"v1",
+						"validate_receiver_account"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "validate_receiver_account",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bank-id",
+								"value": "bankOne",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/tech_hub_pay/v1/validate_receiver_account",
+							"path": [
+								"tech_hub_pay",
+								"v1",
+								"validate_receiver_account"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"url\": \"https://adeee13d-dbad-496b-874c-2aff5284b907.mock.pstmn.io/bankOne/validate_account\"\r\n}"
+				}
+			]
+		},
+		{
+			"name": "validate_atm_pin",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "bank-id",
+						"value": "bankOne",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:7800/tech_hub_pay/v1/validate_atm_pin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7800",
+					"path": [
+						"tech_hub_pay",
+						"v1",
+						"validate_atm_pin"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "validate_atm_pin",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "bank-id",
+								"value": "bankOne",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/tech_hub_pay/v1/validate_atm_pin",
+							"path": [
+								"tech_hub_pay",
+								"v1",
+								"validate_atm_pin"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"url\": \"https://adeee13d-dbad-496b-874c-2aff5284b907.mock.pstmn.io/bankOne/validate_pin\"\n}"
+				}
+			]
+		},
+		{
+			"name": "add_account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "status",
+						"value": "true",
+						"type": "text"
+					},
+					{
+						"key": "account-key",
+						"value": "dc9e2658825d460e8154017538da82e7",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:7800/tech_hub_pay/v1/add_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7800",
+					"path": [
+						"tech_hub_pay",
+						"v1",
+						"add_account"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "add_account",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "status",
+								"value": "true",
+								"type": "text"
+							},
+							{
+								"key": "account-key",
+								"value": "dc9e2658825d460e8154017538da82e7",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/tech_hub_pay/v1/add_account",
+							"path": [
+								"tech_hub_pay",
+								"v1",
+								"add_account"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Account added successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "request_add_account",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "ipa",
+						"value": "test18",
+						"type": "text"
+					},
+					{
+						"key": "bank-id",
+						"value": "bankOne",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:7800/tech_hub_pay/v1/request_add_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7800",
+					"path": [
+						"tech_hub_pay",
+						"v1",
+						"request_add_account"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "request_add_account",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "ipa",
+								"value": "test18",
+								"type": "text"
+							},
+							{
+								"key": "bank-id",
+								"value": "bankOne",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/tech_hub_pay/v1/request_add_account",
+							"path": [
+								"tech_hub_pay",
+								"v1",
+								"request_add_account"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"valid\": true,\n    \"key\": \"fd8919149f4d46ee9bd3609b3f0973be\",\n    \"url\": \"http://localhost:7800/bankOneAddAccount\"\n}"
+				}
+			]
+		},
+		{
+			"name": "bankOneAddAccount",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "account-key",
+						"value": "dc9e2658825d460e8154017538da82e7",
+						"type": "text"
+					},
+					{
+						"key": "atm-pin",
+						"value": "1235",
+						"type": "text"
+					},
+					{
+						"key": "card-number",
+						"value": "4587397521358447",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:7800/bankOneAddAccount",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7800",
+					"path": [
+						"bankOneAddAccount"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "bankOneAddAccount",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "account-key",
+								"value": "dc9e2658825d460e8154017538da82e7",
+								"type": "text"
+							},
+							{
+								"key": "atm-pin",
+								"value": "1235",
+								"type": "text"
+							},
+							{
+								"key": "card-number",
+								"value": "4587397521358447",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/bankOneAddAccount",
+							"path": [
+								"bankOneAddAccount"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"account added successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "sendTransaction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "receiverBankId",
+						"value": "",
+						"type": "text"
+					},
+					{
+						"key": "amount",
+						"value": "300",
+						"type": "text"
+					},
+					{
+						"key": "clientID",
+						"value": "test",
+						"type": "text"
+					},
+					{
+						"key": "receiverAccountType",
+						"value": "ipa",
+						"type": "text"
+					},
+					{
+						"key": "senderGeneratedAccount",
+						"value": "1dfb47e01d5840e1ae350696a23d3db9",
+						"type": "text"
+					},
+					{
+						"key": "receiverAccount",
+						"value": "test18@tech-hub-pay",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:7800/sendmoney/v1/transaction/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7800",
+					"path": [
+						"sendmoney",
+						"v1",
+						"transaction",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "sendTransaction",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "receiverBankId",
+								"value": "",
+								"type": "text"
+							},
+							{
+								"key": "amount",
+								"value": "200",
+								"type": "text"
+							},
+							{
+								"key": "clientID",
+								"value": "test",
+								"type": "text"
+							},
+							{
+								"key": "receiverAccountType",
+								"value": "ipa",
+								"type": "text"
+							},
+							{
+								"key": "senderGeneratedAccount",
+								"value": "1dfb47e01d5840e1ae350696a23d3db9",
+								"type": "text"
+							},
+							{
+								"key": "receiverAccount",
+								"value": "test18@tech-hub-pay",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "/sendmoney/v1/transaction/",
+							"path": [
+								"sendmoney",
+								"v1",
+								"transaction",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"1.6172E+4\",\n    \"transactionStatus\": \"processing\"\n}"
+				}
+			]
+		},
+		{
+			"name": "getBanksList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7800/getbanks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7800",
+					"path": [
+						"getbanks"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "getBanksList",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/getbanks",
+							"path": [
+								"getbanks"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"bank\": {\n        \"id\": 2,\n        \"bankId\": \"bankTwo\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "getTransactionsList",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7800/gettransactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7800",
+					"path": [
+						"gettransactions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "getTransactionsList",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/gettransactions",
+							"path": [
+								"gettransactions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transaction\": {\n        \"data\": {\n            \"id\": 29,\n            \"transactionId\": \"1.6172E+4\",\n            \"clientId\": \"test\",\n            \"senderAccountKey\": \"1dfb47e01d5840e1ae350696a23d3db9\",\n            \"receiverAccount\": \"1dfb47e01d5840e1ae350696a23d3db9\",\n            \"receiverAccountType\": \"ipa\",\n            \"amount\": 200,\n            \"issuerBank\": \"bankOne\",\n            \"acquireBank\": \"bankOne\",\n            \"transactionStatus\": \"processing\",\n            \"transactionDate\": \"2023-02-22 14:04:09\"\n        }\n    }\n}"
+				}
+			]
+		}
+	]
+}

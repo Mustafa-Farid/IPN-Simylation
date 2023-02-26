@@ -1,0 +1,360 @@
+openapi: 3.0.1
+info:
+  title: sendmoney
+  description: sendmoney
+  version: 1.0.0
+  x-ibm-name: sendmoney
+servers:
+  - url: /v1/transaction
+paths:
+  /:
+    post:
+      description: Insert a transaction
+      operationId: postTransaction
+      parameters:
+        - name: receiver-account
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: receiver-account-type
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: receiver-bank-id
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: sender-generated-account
+          in: header
+          schema:
+            type: string
+        - name: amount
+          in: query
+          required: false
+          schema:
+            type: string
+      requestBody:
+        description: The request body for the operation
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          description: The operation was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responseMessage'
+        '406':
+          description: The operation was rejected
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: server is not available (Generic).
+          content:
+            application/json:
+              schema:
+                type: string
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    responseMessage:
+      type: object
+      properties:
+        status:
+          type: string
+        transactionID:
+          type: string
+  securitySchemes:
+    clientID:
+      type: apiKey
+      in: header
+      name: X-IBM-Client-Id
+x-ibm-configuration:
+  cors:
+    enabled: true
+  properties:
+    target-url:
+      value: null//null
+      description: The URL of the target service
+      encoded: false
+  phase: realized
+  enforced: true
+  gateway: datapower-api-gateway
+  assembly:
+    execute:
+      - switch:
+          version: 2.0.0
+          title: switch
+          case:
+            - condition: $not(request.parameters.amount)
+              execute:
+                - map:
+                    version: 2.0.0
+                    title: map
+                    inputs: {}
+                    outputs:
+                      error:
+                        schema:
+                          description: ''
+                          type: object
+                          properties:
+                            status-code:
+                              type: number
+                              name: status-code
+                            status-msg:
+                              type: string
+                              name: status-msg
+                            msg:
+                              type: string
+                              name: msg
+                          example: >-
+                            {"status-code":400,"status-msg":"Bad
+                            Request","msg":"ipa is missing from header"}
+                        variable: message.body
+                      status code:
+                        schema:
+                          type: integer
+                          format: int32
+                        variable: message.status.code
+                    actions:
+                      - set: error.status-code
+                        value: '400'
+                      - set: error.status-msg
+                        value: '"Bad Request"'
+                      - set: error.msg
+                        value: '"amount is missing from query param"'
+                      - set: status code
+                        value: '400'
+            - condition: $not($header("receiver-account"))
+              execute:
+                - map:
+                    version: 2.0.0
+                    title: map
+                    inputs: {}
+                    outputs:
+                      error:
+                        schema:
+                          description: ''
+                          type: object
+                          properties:
+                            status-code:
+                              type: number
+                              name: status-code
+                            status-msg:
+                              type: string
+                              name: status-msg
+                            msg:
+                              type: string
+                              name: msg
+                          example: >-
+                            {"status-code":400,"status-msg":"Bad
+                            Request","msg":"ipa is missing from header"}
+                        variable: message.body
+                      status code:
+                        schema:
+                          type: integer
+                          format: int32
+                        variable: message.status.code
+                    actions:
+                      - set: error.status-code
+                        value: '400'
+                      - set: error.status-msg
+                        value: '"Bad Request"'
+                      - set: error.msg
+                        value: '"receiver-account is missing from header"'
+                      - set: status code
+                        value: '400'
+            - condition: $not($header("receiver-account-type"))
+              execute:
+                - map:
+                    version: 2.0.0
+                    title: map
+                    inputs: {}
+                    outputs:
+                      error:
+                        schema:
+                          description: ''
+                          type: object
+                          properties:
+                            status-code:
+                              type: number
+                              name: status-code
+                            status-msg:
+                              type: string
+                              name: status-msg
+                            msg:
+                              type: string
+                              name: msg
+                          example: >-
+                            {"status-code":400,"status-msg":"Bad
+                            Request","msg":"ipa is missing from header"}
+                        variable: message.body
+                      status code:
+                        schema:
+                          type: integer
+                          format: int32
+                        variable: message.status.code
+                    actions:
+                      - set: error.status-code
+                        value: '400'
+                      - set: error.status-msg
+                        value: '"Bad Request"'
+                      - set: error.msg
+                        value: '"receiver-account-type is missing from header"'
+                      - set: status code
+                        value: '400'
+            - condition: $not($header("receiver-bank-id"))
+              execute:
+                - map:
+                    version: 2.0.0
+                    title: map
+                    inputs: {}
+                    outputs:
+                      error:
+                        schema:
+                          description: ''
+                          type: object
+                          properties:
+                            status-code:
+                              type: number
+                              name: status-code
+                            status-msg:
+                              type: string
+                              name: status-msg
+                            msg:
+                              type: string
+                              name: msg
+                          example: >-
+                            {"status-code":400,"status-msg":"Bad
+                            Request","msg":"ipa is missing from header"}
+                        variable: message.body
+                      status code:
+                        schema:
+                          type: integer
+                          format: int32
+                        variable: message.status.code
+                    actions:
+                      - set: error.status-code
+                        value: '400'
+                      - set: error.status-msg
+                        value: '"Bad Request"'
+                      - set: error.msg
+                        value: '"receiver-bank-id is missing from header"'
+                      - set: status code
+                        value: '400'
+            - otherwise:
+                - map:
+                    version: 2.0.0
+                    title: map
+                    inputs:
+                      header:
+                        schema:
+                          description: ''
+                          type: object
+                          properties:
+                            receiver-bank-id:
+                              type: string
+                              name: receiver-bank-id
+                            X-IBM-Client-Id:
+                              type: string
+                              name: X-IBM-Client-Id
+                            receiver-account-type:
+                              type: string
+                              name: receiver-account-type
+                            sender-generated-account:
+                              type: string
+                              name: sender-generated-account
+                            receiver-account:
+                              type: string
+                              name: receiver-account
+                          example: >-
+                            {"receiver-bank-id":"bankOne","clientID":"342a1055387a429e87cf3da806dd2480","receiver-account-type":"ipa","sender-generated-account":"342a1055387a429e87cf3da806dd2480","receiver-account":"342a1055387a429e87cf3da806dd2480"}
+                        variable: request.headers
+                      amount:
+                        schema:
+                          type: number
+                          format: float
+                        variable: request.parameters.amount
+                    outputs:
+                      headers:
+                        schema:
+                          description: ''
+                          type: object
+                          properties:
+                            receiverBankId:
+                              type: string
+                              name: receiverBankId
+                            clientID:
+                              type: string
+                              name: clientID
+                            receiverAccountType:
+                              type: string
+                              name: receiverAccountType
+                            senderGeneratedAccount:
+                              type: string
+                              name: senderGeneratedAccount
+                            receiverAccount:
+                              type: string
+                              name: receiverAccount
+                          example: >-
+                            {"receiverBankId":"bankOne","clientID":"342a1055387a429e87cf3da806dd2480","receiverAccountType":"ipa","senderGeneratedAccount":"342a1055387a429e87cf3da806dd2480","receiverAccount":"342a1055387a429e87cf3da806dd2480"}
+                        variable: message.headers
+                      amount:
+                        schema:
+                          type: number
+                          format: double
+                        variable: message.parameters
+                    actions:
+                      - set: headers.receiverBankId
+                        from: header.receiver-bank-id
+                      - set: headers.clientID
+                        from: header.X-IBM-Client-Id
+                      - set: headers.receiverAccountType
+                        from: header.receiver-account-type
+                      - set: headers.senderGeneratedAccount
+                        from: header.sender-generated-account
+                      - set: headers.receiverAccount
+                        from: header.receiver-account
+                      - set: amount
+                        from: amount
+                      - set: output
+                        from: amount
+                - invoke:
+                    version: 2.2.0
+                    title: invoke
+                    backend-type: detect
+                    header-control:
+                      type: blocklist
+                      values: []
+                    parameter-control:
+                      type: allowlist
+                      values: []
+                    http-version: HTTP/1.1
+                    timeout: 60
+                    verb: POST
+                    chunked-uploads: true
+                    persistent-connection: true
+                    cache-response: protocol
+                    cache-ttl: 900
+                    stop-on-error: []
+                    websocket-upgrade: false
+                    target-url: >-
+                      https://dcac5bef-ccb4-4c8d-a159-d46091aa3b7d.mock.pstmn.io/sendmoney/v1/transaction/
+                    graphql-send-type: detect
+    finally: []
+  type: rest
+  testable: true
+  activity-log:
+    enabled: true
+    success-content: activity
+    error-content: payload
+security:
+  - clientID: []

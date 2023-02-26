@@ -1,0 +1,17 @@
+
+
+CREATE FILTER MODULE postRegister_Filter1
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE cardNumber CHARACTER Root.HTTPInputHeader."Card-Number";
+		DECLARE atmPin CHARACTER Root.HTTPInputHeader."Atm-Pin";
+		DECLARE ipaPin CHARACTER Root.HTTPInputHeader."Ipa-Pin";
+		DECLARE accountKey CHARACTER Root.HTTPInputHeader."Account-Key";
+		IF cardNumber IS NULL OR atmPin IS NULL OR ipaPin IS NULL OR accountKey IS NULL THEN
+			RETURN FALSE;
+		ELSE
+			RETURN TRUE;
+		END IF;
+	END;
+
+END MODULE;

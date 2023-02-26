@@ -1,0 +1,18 @@
+Platform: IBM MQ on Cloud
+
+Queue manager name: THP
+Hostname: thp-d00a.qm.au-syd.mq.appdomain.cloud
+Listener port: 30928
+Log port: 0
+
+Application channel name: CLOUD.APP.SVRCONN
+Administration channel name: CLOUD.ADMIN.SVRCONN
+
+Deployment location: bmx-au-syd
+
+MQ Web Console login: https://web-thp-d00a.qm.au-syd.mq.appdomain.cloud/ibmmq/console
+
+Messaging REST endpoint: https://web-thp-d00a.qm.au-syd.mq.appdomain.cloud/ibmmq/rest/v1/messaging/qmgr/THP/queue/(queue_name)/message
+
+Admin REST endpoint: https://web-thp-d00a.qm.au-syd.mq.appdomain.cloud/ibmmq/rest/v1/admin/qmgr/THP
+

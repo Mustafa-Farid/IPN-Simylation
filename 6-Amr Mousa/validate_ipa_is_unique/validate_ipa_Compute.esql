@@ -1,0 +1,43 @@
+
+
+
+
+
+CREATE COMPUTE MODULE validate_ipa_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		DECLARE inRef REFERENCE TO InputRoot.HTTPInputHeader;
+		DECLARE newIPA CHARACTER inRef.Ipa;
+		SET newIPA = newIPA ||'@tech-hub-pay';
+		DECLARE isExist ROW;
+		DECLARE query CHARACTER 'SELECT * FROM tech_hub_pay.users WHERE ipa = "'||newIPA||'"';
+		SET isExist = PASSTHRU(query);
+		IF isExist.ipa = newIPA THEN
+			SET OutputRoot.JSON.Data.isUnique= FALSE;
+		ELSE
+			SET OutputRoot.JSON.Data.isUnique= TRUE;			
+		END IF;
+			SET OutputRoot.HTTPResponseHeader= inRef;
+		SET OutputRoot.HTTPResponseHeader."Content-Type" = 'application/json';
+			
+		
+		
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

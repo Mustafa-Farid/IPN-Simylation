@@ -1,0 +1,62 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "messageHandller",
+    "version" : "1.0.0",
+    "description" : "messageHandller"
+  },
+  "paths" : {
+    "/msgHandler" : {
+      "post" : {
+        "operationId" : "postMsgHandler",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a msgHandler",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "string"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      },
+      "get" : {
+        "operationId" : "getMsgHandler",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve msgHandler"
+      }
+    },
+    "/validate_atm_pin" : {
+      "get" : {
+        "operationId" : "getValidate_atm_pin",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve validate_atm_pin"
+      }
+    }
+  },
+  "basePath" : "/messagehandller/v1",
+  "definitions" : { }
+}

@@ -1,0 +1,45 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "bank1",
+    "version" : "1.0.0",
+    "description" : "bank1"
+  },
+  "paths" : {
+    "/register" : {
+      "post" : {
+        "operationId" : "postRegister",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          },
+          "400" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a register",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "number"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        }, {
+          "name" : "card-number",
+          "in" : "header",
+          "type" : "string",
+          "required" : false
+        }, {
+          "name" : "atm-pin",
+          "in" : "header",
+          "type" : "string"
+        } ]
+      }
+    }
+  },
+  "basePath" : "/bank1/v1"
+}

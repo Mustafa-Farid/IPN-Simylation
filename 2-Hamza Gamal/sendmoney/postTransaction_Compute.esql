@@ -1,0 +1,77 @@
+
+CREATE COMPUTE MODULE getipainfo
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		
+		DECLARE ipa CHARACTER InputRoot.HTTPInputHeader.Receiveraccount;
+		
+		DECLARE query CHARACTER 'SELECT bankId, accountKey FROM users_accounts WHERE isDefault = 1 and ipa = "'||ipa||'"';
+		
+		DECLARE info ROW;
+		SET info = PASSTHRU(query);
+		
+		IF info.accountKey IS NULL THEN 
+			SET OutputRoot.JSON.Data.Error = 'Wrong IPA Value';
+			SET OutputRoot.HTTPResponseHeader."X-Original-HTTP-Status-Code" = 406;
+			PROPAGATE TO TERMINAL 'out1';
+			RETURN FALSE;
+		ELSE 
+			SET OutputRoot.JSON.Data.receiverAccount = info.accountKey;
+			SET OutputRoot.JSON.Data.receiverBankId = info.bankId;
+			SET OutputRoot.JSON.Data.amount = InputRoot.HTTPInputHeader.Amount;
+			SET OutputRoot.JSON.Data.clientID = InputRoot.HTTPInputHeader.Clientid;
+			SET OutputRoot.JSON.Data.senderGeneratedAccount = InputRoot.HTTPInputHeader.Sendergeneratedaccount;
+			SET OutputRoot.JSON.Data.receiverAccountType = InputRoot.HTTPInputHeader.Receiveraccounttype;
+		END IF;
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;
+
+
+
+CREATE COMPUTE MODULE postTransaction_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		SET OutputRoot.JSON.Data.transactionId = InputRoot.JSON.Data.transactionId;
+		SET OutputRoot.JSON.Data.bankID = InputRoot.JSON.Data.senderBankId;
+		SET OutputRoot.JSON.Data.acquireBank = InputRoot.JSON.Data.receiverBankId;
+		SET OutputRoot.JSON.Data.senderAccountKey = InputRoot.JSON.Data.senderGeneratedAccount;
+		SET OutputRoot.JSON.Data.receiverAccount = InputRoot.JSON.Data.receiverAccount;
+		SET OutputRoot.JSON.Data.receiverAccountType = InputRoot.JSON.Data.receiverAccountType;
+		SET OutputRoot.JSON.Data.amount = InputRoot.JSON.Data.amount;
+		
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

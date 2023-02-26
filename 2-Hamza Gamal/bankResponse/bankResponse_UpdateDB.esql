@@ -1,0 +1,40 @@
+
+
+CREATE COMPUTE MODULE bankResponse_UpdateDB
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		CALL CopyMessageHeaders();
+		--CALL CopyEntireMessage();
+		DECLARE status CHARACTER InputRoot.JSON.Data.status;
+		DECLARE transID CHARACTER InputRoot.JSON.Data.transactionID;
+		DECLARE query CHARACTER 'UPDATE transactions SET transactionStatus = "'|| status ||'" WHERE transactionId = "'||transID||'"';
+		PASSTHRU(query);
+		SET OutputRoot.JSON.Data.status = InputRoot.JSON.Data.status;
+		SET OutputRoot.JSON.Data.transactionId = InputRoot.JSON.Data.transactionID;
+		DECLARE query2 CHARACTER 'SELECT amount,acquireBank,senderAccountKey,receiverAccount,receiverAccountType,clientId FROM transactions WHERE transactionId = "'||transID||'"';
+		DECLARE data ROW;
+		SET data = PASSTHRU(query2);
+		
+		SET OutputRoot.JSON.Data.bankID = data.acquireBank;
+		SET OutputRoot.JSON.Data.amount = data.amount;
+		SET OutputRoot.JSON.Data.senderAccountKey = data.senderAccountKey;
+		SET OutputRoot.JSON.Data.receiverAccount = data.receiverAccount;
+		SET OutputRoot.JSON.Data.receiverAccountType = data.receiverAccountType;
+		SET OutputRoot.JSON.Data.clientId = data.clientId;
+
+		RETURN TRUE;
+	END;
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

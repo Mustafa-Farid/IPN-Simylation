@@ -1,0 +1,14 @@
+
+
+CREATE FILTER MODULE postTransaction_Filter1
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE bankExist CHARACTER Root.JSON.Data.bankExist;
+		IF bankExist = TRUE THEN
+			RETURN TRUE;
+		END IF;
+		RETURN FALSE;
+		
+	END;
+
+END MODULE;
